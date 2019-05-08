@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 import './App.css';
 import data from './data.js'; // how to import directly as in const?
 
-const { routes, airlines, airports } = data;
+const { routes, airlines, airports, getAirlineById, getAirportByCode } = data;
 
 class App extends Component {
 
   render() {
     const routeRows = routes.map( (route, idx) => (
       <tr key={idx}>
-        <td>{route.airline}</td>
-        <td>{route.src}</td>
-        <td>{route.dest}</td>
+        <td>{getAirlineById(route.airline)}</td>
+        <td>{getAirportByCode(route.src)}</td>
+        <td>{getAirportByCode(route.dest)}</td>
       </tr>
     ));
 
