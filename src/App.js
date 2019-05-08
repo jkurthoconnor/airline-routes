@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import Table from './Table.js';
 import './App.css';
+import data from './data.js'; // how to import directly as in const?
+
+const { routes, airlines, airports, getAirlineById, getAirportByCode } = data;
 
 class App extends Component {
   formatValue = (property, value) => {
@@ -8,6 +11,16 @@ class App extends Component {
   };
 
   render() {
+    const rows = ( () => {
+      return routes.map( route => {
+        return { 
+          airline: getAirlineById(route.airline),
+          src: getAirportByCode(route.src),
+          dest: getAirportByCode(route.dest),
+        };
+      });
+    })();
+
     const columns = [
       {name: 'Airline', property: 'airline'},
       {name: 'Source Airport', property: 'src'},
@@ -25,20 +38,10 @@ class App extends Component {
           <Table 
             className="routes-table"
             columns={columns}
-            rows=""
+            rows={rows}
             format={this.formatValue}
-            perPage=""
+            perPage="25"
           />
-          <button
-            onClick={this.previousPage}
-          >
-            Previous Page
-          </button>
-          <button
-            onClick={this.nextPage}
-          >
-            Next Page
-          </button>
         </section>
       </div>
     );
