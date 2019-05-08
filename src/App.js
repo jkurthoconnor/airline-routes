@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
+import Table from './Table.js';
 import './App.css';
-import data from './data.js'; // how to import directly as in const?
-
-const { routes, airlines, airports, getAirlineById, getAirportByCode } = data;
 
 class App extends Component {
+  formatValue = (property, value) => {
+    // return a string;
+  };
 
   render() {
-    const routeRows = routes.map( (route, idx) => (
-      <tr key={idx}>
-        <td>{getAirlineById(route.airline)}</td>
-        <td>{getAirportByCode(route.src)}</td>
-        <td>{getAirportByCode(route.dest)}</td>
-      </tr>
-    ));
+    const columns = [
+      {name: 'Airline', property: 'airline'},
+      {name: 'Source Airport', property: 'src'},
+      {name: 'Destination Airport', property: 'dest'},
+    ];
 
     return (
       <div className="app">
@@ -24,11 +23,12 @@ class App extends Component {
           <p>
             Welcome to the Routes!
           </p>
-          <table>
-            <tbody>
-              {routeRows}
-            </tbody>
-          </table>
+          <Table 
+            className="routes-table"
+            columns={columns}
+            rows=""
+            format={this.formatValue}
+          />
         </section>
       </div>
     );
