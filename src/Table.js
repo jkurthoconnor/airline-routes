@@ -5,6 +5,13 @@ const { routes, airlines, airports, getAirlineById, getAirportByCode } = data;
 
 class Table extends Component {
   render() {
+    const headers = this.props.columns.map( (column, idx) => (
+      <th scope="col" 
+        key={idx}>
+        {column.name}
+      </th>
+    ));
+
     const routeRows = routes.map( (route, idx) => (
       <tr key={idx}>
         <td>{getAirlineById(route.airline)}</td>
@@ -15,6 +22,11 @@ class Table extends Component {
 
     return (
           <table>
+            <thead>
+              <tr>
+                {headers}
+              </tr>
+            </thead>
             <tbody>
               {routeRows}
             </tbody>

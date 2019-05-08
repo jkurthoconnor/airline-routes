@@ -21,14 +21,24 @@ class App extends Component {
         </header>
         <section>
           <p>
-            Welcome to the Routes!
           </p>
           <Table 
             className="routes-table"
             columns={columns}
             rows=""
             format={this.formatValue}
+            perPage=""
           />
+          <button
+            onClick={this.previousPage}
+          >
+            Previous Page
+          </button>
+          <button
+            onClick={this.nextPage}
+          >
+            Next Page
+          </button>
         </section>
       </div>
     );
