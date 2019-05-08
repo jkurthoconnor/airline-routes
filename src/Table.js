@@ -39,6 +39,14 @@ class Table extends Component {
     return (this.state.currentPageStartIdx + this.state.rowsPerPage) >= this.state.sourceRowCount - 1;
   };
 
+  pageViewMessage = () => {
+    const pageStart = this.state.currentPageStartIdx + 1;
+    const pageEnd = pageStart + this.state.rowsPerPage - 1;
+    const totalRecords = this.state.sourceRowCount;
+
+    return `Displaying ${pageStart} - ${pageEnd} of ${totalRecords} matching routes`;
+  };
+
   render() {
     console.log(this.state);
     const headers = this.props.columns.map( (column, idx) => (
@@ -59,6 +67,7 @@ class Table extends Component {
     return (
       <div>
         <table>
+          <caption>{this.pageViewMessage()}</caption>
           <thead>
             <tr>
               {headers}
