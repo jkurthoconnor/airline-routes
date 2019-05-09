@@ -3,45 +3,43 @@ import { getAirlineById, getAirportByCode } from '../data.js';
 
 class Table extends Component {
   state = {
-    sourceRows: this.props.rows,
-    sourceRowCount: this.props.rows.length,
-    rowsPerPage: Number(this.props.perPage),
-    currentPageStartIdx: 0,
+    pageStartIdx: 0,
     displayRows: this.props.rows.slice(0, Number(this.props.perPage)),
   };
 
   previousPage = () => {
-    const newStartIdx = this.state.currentPageStartIdx - this.state.rowsPerPage;
+    const newStartIdx = this.state.pageStartIdx - Number(this.props.perPage);
 
     this.setState({
-      displayRows: [...this.state.sourceRows.slice(
-        newStartIdx, (newStartIdx + this.state.rowsPerPage)) ],
-      currentPageStartIdx: newStartIdx,
+      displayRows: [...this.props.rows.slice(
+        newStartIdx, (newStartIdx + Number(this.props.perPage))) ],
+      pageStartIdx: newStartIdx,
     });
   };
 
-  nextPage = () => { // achtung: startIdx may reference old inaccurate state
-    const newStartIdx = this.state.currentPageStartIdx + this.state.rowsPerPage;
+  nextPage = () => {
+    const newStartIdx = this.state.pageStartIdx + Number(this.props.perPage);
 
     this.setState({
-      displayRows: [...this.state.sourceRows.slice(
-      newStartIdx, (newStartIdx + this.state.rowsPerPage)) ],
-      currentPageStartIdx: newStartIdx,
+      displayRows: [...this.props.rows.slice(
+      newStartIdx, (newStartIdx + Number(this.props.perPage))) ],
+      pageStartIdx: newStartIdx,
     });
   };
 
   prevPageDisabled = () => {
-    return this.state.currentPageStartIdx - this.state.rowsPerPage < 0;
+    return this.state.pageStartIdx - Number(this.props.perPage) < 0;
   }
 
   nextPageDisabled = () => {
-    return (this.state.currentPageStartIdx + this.state.rowsPerPage) >= this.state.sourceRowCount - 1;
+    const lastRow = this.props.rows.length - 1;
+    return (this.state.pageStartIdx + Number(this.props.perPage)) >= lastRow;
   };
 
   pageViewMessage = () => {
-    let pageStart = this.state.currentPageStartIdx + 1;
-    let pageEnd = pageStart + this.state.rowsPerPage - 1;
-    let totalRecords = this.state.sourceRowCount;
+    let pageStart = this.state.pageStartIdx + 1;
+    let pageEnd = pageStart + Number(this.props.perPage) - 1;
+    let totalRecords = this.props.rows.length;
 
     pageStart = totalRecords ? pageStart : 0;
     pageEnd = pageEnd > totalRecords ? totalRecords : pageEnd;
