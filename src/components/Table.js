@@ -39,9 +39,12 @@ class Table extends Component {
   };
 
   pageViewMessage = () => {
-    const pageStart = this.state.currentPageStartIdx + 1;
-    const pageEnd = pageStart + this.state.rowsPerPage - 1;
-    const totalRecords = this.state.sourceRowCount;
+    let pageStart = this.state.currentPageStartIdx + 1;
+    let pageEnd = pageStart + this.state.rowsPerPage - 1;
+    let totalRecords = this.state.sourceRowCount;
+
+    pageStart = totalRecords ? pageStart : 0;
+    pageEnd = pageEnd > totalRecords ? totalRecords : pageEnd;
 
     return `Displaying ${pageStart} - ${pageEnd} of ${totalRecords} matching routes`;
   };
