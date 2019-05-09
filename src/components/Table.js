@@ -10,21 +10,6 @@ class Table extends Component {
     displayRows: this.props.rows.slice(0, Number(this.props.perPage)),
   };
 
-
-  // appears to not be triggered
-  static getDerivedStateFromProps(update, current) {
-    console.log('hello from gDSFP');
-    if (update.rows !== current.sourceRows) {
-      return {
-        sourceRows: update.rows,
-        sourceRowCount: update.rows.length,
-        displayRows: update.rows.slice(0, Number(this.props.perPage)),
-      };
-    } else {
-      return null;
-    }
-  }
-
   previousPage = () => {
     const newStartIdx = this.state.currentPageStartIdx - this.state.rowsPerPage;
 

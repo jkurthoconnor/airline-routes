@@ -11,8 +11,6 @@ class App extends Component {
     currentAirport: ''
   };
 
-  // debug: table does not rerender with changes to parent state
-  // and to props
   selectAirline = e => {
     this.setState({
       currentAirline: Number(e.target.value),
@@ -25,8 +23,6 @@ class App extends Component {
     });
   };
 
-  // setRoutes does change props when airline is selected
-  // but Table component does not rerender
   clearSelections = () => {
     this.setState({
       currentAirline: '',
@@ -100,6 +96,7 @@ class App extends Component {
               value="Reset"
             >Reset</button>
           <Table
+            key={Math.random()}
             className="routes-table"
             columns={columns}
             rows={this.setRoutes()}
