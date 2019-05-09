@@ -1396,16 +1396,17 @@ const airports = [
 ];
 
 
-const getAirlineById = (id) => {
+export const getAirlineById = (id) => {
   return airlines.filter( airline => {
     return id === airline.id;
   })[0].name;
 };
 
-const getAirportByCode = (code) => {
+export const getAirportByCode = (code) => {
   return airports.filter( airport => {
     return code === airport.code;
   })[0].name;
 };
 
-export default {routes, airlines, airports, getAirlineById, getAirportByCode};
+export default {routes, airlines, airports};
+
