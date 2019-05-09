@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Table from './components/Table.js';
+import Select from './components/Select.js';
 import './App.css';
 import data from './data.js';
 
@@ -63,38 +64,15 @@ class App extends Component {
           <h1 className="title">Airline Routes</h1>
         </header>
         <section>
-          <p>
-          </p>
-            <select 
-              onChange={this.selectAirline}
-              value={this.state.currentAirline || ""}
-            >
-              <option value="">Select Airline</option>
-              { airlines.map( airline => (
-                <option
-                  key={airline.id}
-                  value={airline.id}>
-                  {airline.name}
-                </option>
-                )) }
-            </select>
-            <select 
-              onChange={this.selectAirport}
-              value={this.state.currentAirport || ""}
-            >
-              <option value="">Select Airport</option>
-              { airports.map( airport => (
-                <option
-                  key={airport.code}
-                  value={airport.code}>
-                  {airport.name}
-                </option>
-                )) }
-            </select>
-            <button
-              onClick={this.clearSelections}
-              value="Reset"
-            >Reset</button>
+          <Select 
+            airlines={airlines}
+            airports={airports}
+            selectAirline={this.selectAirline}
+            selectAirport={this.selectAirport}
+            currentAirline={this.state.currentAirline || ""}
+            currentAirport={this.state.currentAirport || ""}
+            clear={this.clearSelections}
+          />
           <Table
             key={Math.random()}
             className="routes-table"
