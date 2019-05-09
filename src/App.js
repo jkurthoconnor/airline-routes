@@ -7,26 +7,51 @@ const { routes, airlines, airports } = data;
 
 class App extends Component {
   state = {
-    selectedRoutes: routes,
-    currentAirline: "",
+    currentAirline: '',
+    currentAirport: ''
   };
 
-  formatValue = (property, value) => {
-    // return a string;
-  };
-
-  // debug: table does not update with change in parent state
-  // and changes to props, but not 'received' on other end?
+  // debug: table does not rerender with changes to parent state
+  // and to props
   selectAirline = e => {
-    const airlineCode = Number(e.target.value);
-
     this.setState({
-      currentAirline: airlineCode,
-      selectedRoutes: [...routes].filter( route => {
-        return route.airline === airlineCode;
-      }),
+      currentAirline: Number(e.target.value),
     });
+  };
 
+  selectAirport = e => {
+    this.setState({
+      currentAirport: e.target.value,
+    });
+  };
+
+  // setRoutes does change props when airline is selected
+  // but Timer component does not rerender
+  clearSelections = () => {
+    this.setState({
+      currentAirline: '',
+      currentAirport: '',
+    });
+  };
+
+  setRoutes = () => {
+    const airline = this.state.currentAirline;
+    const airport = this.state.currentAirport;
+
+    if (airline && airport) {
+      return routes.filter( route => {
+        return route.airline === airline &&
+               (route.src === airport || route.dest === airport);
+      });
+    } else if (airline || airport) {
+      return routes.filter( route => {
+        return route.airline === airline || 
+               route.src === airport || 
+               route.dest === airport;
+      });
+    } else {
+      return routes;
+    }
   };
 
   render() {
@@ -57,11 +82,27 @@ class App extends Component {
                 </option>
                 )) }
             </select>
+            <select 
+              onChange={this.selectAirport}
+              value={this.state.currentAirport || ""}
+            >
+              <option value="">Select Airport</option>
+              { airports.map( airport => (
+                <option
+                  key={airport.code}
+                  value={airport.code}>
+                  {airport.name}
+                </option>
+                )) }
+            </select>
+            <button
+              onClick={this.clearSelections}
+              value="Reset"
+            >Reset</button>
           <Table
             className="routes-table"
             columns={columns}
-            rows={this.state.selectedRoutes}
-            format={this.formatValue}
+            rows={this.setRoutes()}
             perPage="25"
           />
         </section>
