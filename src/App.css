@@ -20,8 +20,12 @@ section {
 
 table.routes-table {
   border-collapse: collapse;
-  margin: 0 auto;
+  margin: 20px auto;
   width: 90%;
+}
+
+.routes-table caption {
+  margin-bottom: 20px;
 }
 
 .routes-table th,
@@ -48,6 +52,10 @@ select {
 
 .pagination a {
   margin: 0 .5em;
+}
+
+table ~ button {
+  margin-bottom: 20px;
 }
 
 button[disabled] {
