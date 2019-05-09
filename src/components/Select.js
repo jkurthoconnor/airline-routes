@@ -5,6 +5,7 @@ class Select extends Component {
   static propTypes = {
     airlines: PropTypes.arrayOf(PropTypes.object),
     airports: PropTypes.arrayOf(PropTypes.object),
+    rows: PropTypes.arrayOf(PropTypes.object),
     selectAirline: PropTypes.func,
     selectAirport: PropTypes.func,
     clear: PropTypes.func,
@@ -23,6 +24,12 @@ class Select extends Component {
     this.props.selectAirport(e);
   };
 
+  handleDisabling = value => {
+    return !this.props.rows.some( row => {
+      return row.airline === value || row.src === value || row.dest === value;
+    });
+  };
+
   render() {
     return (
       <div>
@@ -34,7 +41,9 @@ class Select extends Component {
           { this.props.airlines.map( airline => (
             <option
               key={airline.id}
-              value={airline.id}>
+              value={airline.id}
+              disabled={this.handleDisabling(airline.id)}
+            >
               {airline.name}
             </option>
             )) }
@@ -47,7 +56,9 @@ class Select extends Component {
           { this.props.airports.map( airport => (
             <option
               key={airport.code}
-              value={airport.code}>
+              value={airport.code}
+              disabled={this.handleDisabling(airport.code)}
+            >
               {airport.name}
             </option>
             )) }

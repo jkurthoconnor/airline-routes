@@ -70,6 +70,7 @@ class App extends Component {
             currentAirline={this.state.currentAirline || ""}
             currentAirport={this.state.currentAirport || ""}
             clear={this.clearSelections}
+            rows={this.setRoutes()}
           />
           <Table
             key={Math.random()}
