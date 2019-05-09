@@ -62,7 +62,7 @@ class Table extends Component {
 
     return (
       <div>
-        <table class={this.props.className}>
+        <table className={this.props.className}>
           <caption>
             {this.pageViewMessage()}
           </caption>
