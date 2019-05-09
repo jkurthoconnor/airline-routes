@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getAirlineById, getAirportByCode } from './data.js';
+import { getAirlineById, getAirportByCode } from '../data.js';
 
 class Table extends Component {
   state = {

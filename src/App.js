@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Table from './Table.js';
+import Table from './components/Table.js';
 import './App.css';
 import data from './data.js';
 
@@ -26,7 +26,7 @@ class App extends Component {
   };
 
   // setRoutes does change props when airline is selected
-  // but Timer component does not rerender
+  // but Table component does not rerender
   clearSelections = () => {
     this.setState({
       currentAirline: '',
