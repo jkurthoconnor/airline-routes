@@ -1,21 +1,35 @@
 import React, { Component } from 'react';
+import { getAirlineById, getAirportByCode } from './data.js';
 
 class Table extends Component {
-
   state = {
     sourceRows: this.props.rows,
     sourceRowCount: this.props.rows.length,
     rowsPerPage: Number(this.props.perPage),
     currentPageStartIdx: 0,
-    rows: this.props.rows.slice(0, this.props.perPage),
+    displayRows: this.props.rows.slice(0, Number(this.props.perPage)),
   };
 
+
+  // appears to not be triggered
+  static getDerivedStateFromProps(update, current) {
+    console.log('hello from gDSFP');
+    if (update.rows !== current.sourceRows) {
+      return {
+        sourceRows: update.rows,
+        sourceRowCount: update.rows.length,
+        displayRows: update.rows.slice(0, Number(this.props.perPage)),
+      };
+    } else {
+      return null;
+    }
+  }
 
   previousPage = () => {
     const newStartIdx = this.state.currentPageStartIdx - this.state.rowsPerPage;
 
     this.setState({
-      rows: [...this.state.sourceRows.slice(
+      displayRows: [...this.state.sourceRows.slice(
         newStartIdx, (newStartIdx + this.state.rowsPerPage)) ],
       currentPageStartIdx: newStartIdx,
     });
@@ -25,7 +39,7 @@ class Table extends Component {
     const newStartIdx = this.state.currentPageStartIdx + this.state.rowsPerPage;
 
     this.setState({
-      rows: [...this.state.sourceRows.slice(
+      displayRows: [...this.state.sourceRows.slice(
       newStartIdx, (newStartIdx + this.state.rowsPerPage)) ],
       currentPageStartIdx: newStartIdx,
     });
@@ -48,7 +62,6 @@ class Table extends Component {
   };
 
   render() {
-    console.log(this.state);
     const headers = this.props.columns.map( (column, idx) => (
       <th scope="col" 
         key={idx}>
@@ -56,11 +69,11 @@ class Table extends Component {
       </th>
     ));
 
-    const routeRows = this.state.rows.map( (row, idx) => (
+    const routeRows = this.state.displayRows.map( (row, idx) => (
       <tr key={idx}>
-        <td>{row.airline}</td>
-        <td>{row.src}</td>
-        <td>{row.dest}</td>
+        <td>{getAirlineById(row.airline)}</td>
+        <td>{getAirportByCode(row.src)}</td>
+        <td>{getAirportByCode(row.dest)}</td>
       </tr>
     ));
 

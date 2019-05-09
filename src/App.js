@@ -1,26 +1,35 @@
 import React, { Component } from 'react';
 import Table from './Table.js';
 import './App.css';
-import data from './data.js'; // how to import directly as in const?
+import data from './data.js';
 
-const { routes, airlines, airports, getAirlineById, getAirportByCode } = data;
+const { routes, airlines, airports } = data;
 
 class App extends Component {
+  state = {
+    selectedRoutes: routes,
+    currentAirline: "",
+  };
+
   formatValue = (property, value) => {
     // return a string;
   };
 
-  render() {
-    const rows = ( () => {
-      return routes.map( route => {
-        return { 
-          airline: getAirlineById(route.airline),
-          src: getAirportByCode(route.src),
-          dest: getAirportByCode(route.dest),
-        };
-      });
-    })();
+  // debug: table does not update with change in parent state
+  // and changes to props, but not 'received' on other end?
+  selectAirline = e => {
+    const airlineCode = Number(e.target.value);
 
+    this.setState({
+      currentAirline: airlineCode,
+      selectedRoutes: [...routes].filter( route => {
+        return route.airline === airlineCode;
+      }),
+    });
+
+  };
+
+  render() {
     const columns = [
       {name: 'Airline', property: 'airline'},
       {name: 'Source Airport', property: 'src'},
@@ -35,10 +44,23 @@ class App extends Component {
         <section>
           <p>
           </p>
-          <Table 
+            <select 
+              onChange={this.selectAirline}
+              value={this.state.currentAirline || ""}
+            >
+              <option value="">Select Airline</option>
+              { airlines.map( airline => (
+                <option
+                  key={airline.id}
+                  value={airline.id}>
+                  {airline.name}
+                </option>
+                )) }
+            </select>
+          <Table
             className="routes-table"
             columns={columns}
-            rows={rows}
+            rows={this.state.selectedRoutes}
             format={this.formatValue}
             perPage="25"
           />
