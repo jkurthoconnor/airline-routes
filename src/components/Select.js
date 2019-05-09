@@ -1,6 +1,20 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class Select extends Component {
+  static propTypes = {
+    airlines: PropTypes.arrayOf(PropTypes.object),
+    airports: PropTypes.arrayOf(PropTypes.object),
+    selectAirline: PropTypes.func,
+    selectAirport: PropTypes.func,
+    clear: PropTypes.func,
+    currentAirport: PropTypes.string,
+    currentAirline: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+    ]),
+  };
+
   handleAirlineSelection = e => {
     this.props.selectAirline(e);
   };

@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { getAirlineById, getAirportByCode } from '../data.js';
 
 class Table extends Component {
+  static propTypes = {
+    className: PropTypes.string,
+    perPage: PropTypes.string,
+    columns: PropTypes.arrayOf(PropTypes.object),
+    rows: PropTypes.arrayOf(PropTypes.object),
+  }
+
   state = {
     pageStartIdx: 0,
     displayRows: this.props.rows.slice(0, Number(this.props.perPage)),
