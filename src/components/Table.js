@@ -7,29 +7,27 @@ class Table extends Component {
     displayRows: this.props.rows.slice(0, Number(this.props.perPage)),
   };
 
-  previousPage = () => {
-    const newStartIdx = this.state.pageStartIdx - Number(this.props.perPage);
-
+  changePageState = (start) => {
     this.setState({
       displayRows: [...this.props.rows.slice(
-        newStartIdx, (newStartIdx + Number(this.props.perPage))) ],
-      pageStartIdx: newStartIdx,
+        start, (start + Number(this.props.perPage))) ],
+      pageStartIdx: start,
     });
+  };
+
+  previousPage = () => {
+    const newStartIdx = this.state.pageStartIdx - Number(this.props.perPage);
+    this.changePageState(newStartIdx);
   };
 
   nextPage = () => {
     const newStartIdx = this.state.pageStartIdx + Number(this.props.perPage);
-
-    this.setState({
-      displayRows: [...this.props.rows.slice(
-      newStartIdx, (newStartIdx + Number(this.props.perPage))) ],
-      pageStartIdx: newStartIdx,
-    });
+    this.changePageState(newStartIdx);
   };
 
   prevPageDisabled = () => {
     return this.state.pageStartIdx - Number(this.props.perPage) < 0;
-  }
+  };
 
   nextPageDisabled = () => {
     const lastRow = this.props.rows.length - 1;
@@ -37,12 +35,11 @@ class Table extends Component {
   };
 
   pageViewMessage = () => {
-    let pageStart = this.state.pageStartIdx + 1;
+    const totalRecords = this.props.rows.length;
+    const pageStart = totalRecords ? (this.state.pageStartIdx + 1) : 0;
     let pageEnd = pageStart + Number(this.props.perPage) - 1;
-    let totalRecords = this.props.rows.length;
 
-    pageStart = totalRecords ? pageStart : 0;
-    pageEnd = pageEnd > totalRecords ? totalRecords : pageEnd;
+    if (pageEnd > totalRecords) { pageEnd = totalRecords }
 
     return `Displaying ${pageStart} - ${pageEnd} of ${totalRecords} matching routes`;
   };
