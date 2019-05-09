@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import Table from './components/Table.js';
 import Select from './components/Select.js';
 import './App.css';
-import data from './data.js';
-
-const { routes, airlines, airports } = data;
+import { routes, airlines, airports } from './data';
 
 class App extends Component {
   state = {
